@@ -2,7 +2,7 @@ import os
 import pathlib
 from deepinterpolation.cli.training import Training
 
-if __name__ == '__main__':
+if __name__ == '__main__':		# used to execute a code if the file is run directly and not imported
     # Initialize meta-parameters objects
     training_param = {}
     generator_param = {}
@@ -20,37 +20,37 @@ if __name__ == '__main__':
     # this can be a separate file
     # Name of object in the collection
     generator_test_param["name"] = "EphysGenerator"
-    generator_test_param[
-        "pre_post_frame"
-    ] = 30  # Number of frame provided before and after the predicted frame
-    generator_test_param["train_path"] = os.path.join(
+    generator_test_param["pre_frame"] = 30  
+    # Number of frame provided before and after the predicted frame
+    generator_test_param["post_frame"] = 30 	
+    generator_test_param["data_path"] = os.path.join(
         pathlib.Path(__file__).parent.absolute(),
         "..",
         "sample_data",
         "ephys_tiny_continuous.dat2",
     )
     generator_test_param["batch_size"] = 100
-    generator_test_param["start_frame"] = 0
+    generator_test_param["start_frame"] = 1
     generator_test_param["end_frame"] = 1000
     generator_test_param[
         "pre_post_omission"
     ] = 1  # Number of frame omitted before and after the predicted frame
-    generator_test_param["steps_per_epoch"] = -1
+    
     # No step necessary for testing as epochs are not relevant.
     # -1 deactivate it.
 
     # Those are parameters used for the main data generator
-    generator_param["steps_per_epoch"] = steps_per_epoch
     generator_param["name"] = "EphysGenerator"
-    generator_param["pre_post_frame"] = 30
-    generator_param["train_path"] = os.path.join(
+    generator_param["pre_frame"] = 15  
+    generator_param["post_frame"] = 15
+    generator_param["data_path"] = os.path.join(
         pathlib.Path(__file__).parent.absolute(),
         "..",
         "sample_data",
         "ephys_tiny_continuous.dat2",
     )
     generator_param["batch_size"] = 100
-    generator_param["start_frame"] = 2000
+    generator_param["start_frame"] = 1500
     generator_param["end_frame"] = 3000
     generator_param["pre_post_omission"] = 1
 
@@ -62,14 +62,16 @@ if __name__ == '__main__':
     # Those are parameters used for the training process
     training_param["name"] = "core_trainer"
     training_param["loss"] = "mean_absolute_error"
+    training_param['steps_per_epoch'] = steps_per_epoch
 
     training_param["model_string"] = (
         network_param["name"]
         + "_"
         + training_param["loss"]
     )
-    training_param["output_dir"] = str(pathlib.Path(__file__)
-                                       .parent.absolute())
+    training_param["output_dir"] = str("E:\Github\deepinterpolation\PRIVATE\Trial")
+    
+
 
     args = {
         "training_params": training_param,
